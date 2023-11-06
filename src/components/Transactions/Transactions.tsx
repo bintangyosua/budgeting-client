@@ -1,9 +1,10 @@
+import transaction from "@/data/expense";
 import { Table } from "@radix-ui/themes";
 import axios from "axios";
 
 export default async function Transactions() {
-  const res = await fetch("http://127.0.0.1:8000/api/transactions");
-  const data = res.json();
+  const res = await axios.get("http://127.0.0.1:8000/api/transactions");
+  const data: transaction[] = res.data;
   console.log(data);
   return (
     <Table.Root size={"3"}>
@@ -19,23 +20,16 @@ export default async function Transactions() {
       </Table.Header>
 
       <Table.Body>
-        <Table.Row>
-          <Table.RowHeaderCell>Danilo Sousa</Table.RowHeaderCell>
-          <Table.Cell>danilo@example.com</Table.Cell>
-          <Table.Cell>Developer</Table.Cell>
-        </Table.Row>
-
-        <Table.Row>
-          <Table.RowHeaderCell>Zahra Ambessa</Table.RowHeaderCell>
-          <Table.Cell>zahra@example.com</Table.Cell>
-          <Table.Cell>Admin</Table.Cell>
-        </Table.Row>
-
-        <Table.Row>
-          <Table.RowHeaderCell>Jasper Eriksson</Table.RowHeaderCell>
-          <Table.Cell>jasper@example.com</Table.Cell>
-          <Table.Cell>Developer</Table.Cell>
-        </Table.Row>
+        {data.map((value, key) => (
+          <Table.Row key={key}>
+            <Table.RowHeaderCell>{value.date}</Table.RowHeaderCell>
+            <Table.Cell>{value.amount}</Table.Cell>
+            <Table.Cell>{value.category}</Table.Cell>
+            <Table.Cell>{value.description}</Table.Cell>
+            <Table.Cell>{value.wallet}</Table.Cell>
+            <Table.Cell></Table.Cell>
+          </Table.Row>
+        ))}
       </Table.Body>
     </Table.Root>
   );
