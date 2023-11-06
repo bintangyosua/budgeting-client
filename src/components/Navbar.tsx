@@ -5,7 +5,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  console.log(session);
   return (
     <div className="flex flex-row justify-between px-10 py-6 bg-[#0f0f0f] sticky top-0">
       <div className="flex items-center space-x-4">

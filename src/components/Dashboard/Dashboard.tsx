@@ -95,14 +95,14 @@ const datasets = [
   {
     fill: true,
     label: "Income",
-    backgroundColor: "rgb(57,126,232, 0.7)",
+    backgroundColor: "#397EE8",
     borderColor: "#397EE8",
     data: incomeData,
   },
   {
     fill: true,
     label: "Expense",
-    backgroundColor: "rgb(239,68,68, 0.7)",
+    backgroundColor: "#EF4444",
     borderColor: "#EF4444",
     data: expenseData,
   },
