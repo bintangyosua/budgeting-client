@@ -12,12 +12,12 @@ import { useDispatch } from "react-redux";
 import AddTransaction from "./AddTransaction";
 import { useEffect, useState } from "react";
 import DeleteTransaction from "./DeleteTransaction";
+import EditTransaction from "./EditTransactions";
 
 export default function Transactions() {
   const { data: session, status } = useSession();
 
   // const data = store.dispatch(getUserTransactions(session?.user?.email));
-  // console.log(data);
 
   const dispatch = useDispatch<AppDispatch>();
   const trans: TransactionState[] = useAppSelector(
@@ -25,6 +25,8 @@ export default function Transactions() {
   );
 
   const [transactions, setTransactions] = useState<TransactionState[]>([]);
+  const [pickedTransaction, setPickedTransaction] =
+    useState<TransactionState>();
   const categories = useAppSelector((state) => state.categoryReducer.value);
   const wallets = useAppSelector((state) => state.walletReducer.value);
 
@@ -39,7 +41,7 @@ export default function Transactions() {
   }, [trans]);
 
   return (
-    <div>
+    <div className="w-full">
       <AddTransaction />
       <Table.Root size={"3"}>
         <Table.Header>
@@ -74,9 +76,9 @@ export default function Transactions() {
                 </Table.Cell>
                 <Table.Cell>
                   <div className="flex space-x-2">
-                    <Button color="cyan" variant="outline">
-                      Edit
-                    </Button>
+                    <span>
+                      <EditTransaction transaction={value} />
+                    </span>
                     <DeleteTransaction transactionId={value.id} />
                   </div>
                 </Table.Cell>

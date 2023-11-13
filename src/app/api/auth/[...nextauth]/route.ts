@@ -17,10 +17,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn(user) {
-      // await axios.get(`${process.env.API_URL}/users`).then((res) => {
-      //   console.log(res.data);
-      // });
-
       try {
         const res = await axios
           .get(`${process.env.API_URL}/users/${user.profile?.email}`)
@@ -35,13 +31,6 @@ export const authOptions: NextAuthOptions = {
           .then((res) => {});
       }
 
-      // console.log({
-      //   url: `${process.env.API_URL}/users/${user.profile?.email}`,
-      //   status: res.status,
-      //   data: res.data,
-      // });
-
-      // if (res.status != 200) {
       return true;
     },
   },

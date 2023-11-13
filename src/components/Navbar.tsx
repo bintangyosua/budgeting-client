@@ -24,14 +24,14 @@ export default function Navbar() {
     axios
       .get(`http://127.0.0.1:8000/api/users/${session?.user?.email}`)
       .then((res) => {
-        console.log(dispatch(logIn(res.data)).payload);
+        dispatch(logIn(res.data));
       });
     axios
       .get(
         `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
       )
       .then((res) => {
-        console.log(dispatch(setTransactions(res.data)));
+        dispatch(setTransactions(res.data));
       });
   }, []);
 
