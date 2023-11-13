@@ -14,6 +14,8 @@ export type AuthState = {
 const initialState = {
   value: {
     id: 0,
+    name: "",
+    email: "",
   } as AuthState,
 } as initialState;
 

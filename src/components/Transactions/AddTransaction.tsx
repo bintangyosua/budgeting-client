@@ -17,7 +17,8 @@ import { WalletState } from "@/redux/features/wallets-slice";
 import { setCategories as postCategories } from "@/redux/features/categories-slice";
 import { setWallets as postWallets } from "@/redux/features/wallets-slice";
 import { useDispatch } from "react-redux";
-import { setTransactions } from "@/redux/features/transactions-slice";
+import { setTransactions as postTransactions } from "@/redux/features/transactions-slice";
+import { useSession } from "next-auth/react";
 
 export default function AddTransaction() {
   const id = useAppSelector((state) => state.authReducer.value.id);
@@ -41,6 +42,8 @@ export default function AddTransaction() {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const { data: session, status } = useSession();
+
   const handleSubmit = () => {
     const body = {
       date: date,
@@ -52,7 +55,7 @@ export default function AddTransaction() {
     };
 
     axios.post("http://127.0.0.1:8000/api/transactions", body).then((res) => {
-      dispatch(setTransactions(res.data));
+      dispatch(postTransactions(res.data));
     });
   };
 

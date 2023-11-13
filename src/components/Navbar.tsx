@@ -14,13 +14,24 @@ export default function Navbar() {
 
   const dispatch = useDispatch<AppDispatch>();
   const [user, setUser] = useState<AuthState>();
+  const user_state = useAppSelector((state) => state.authReducer.value);
+
+  const transactions = useAppSelector(
+    (state) => state.transactionReducer.value
+  );
 
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/users/${session?.user?.email}`)
       .then((res) => {
-        setUser(res.data);
-        dispatch(logIn(res.data));
+        console.log(dispatch(logIn(res.data)).payload);
+      });
+    axios
+      .get(
+        `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
+      )
+      .then((res) => {
+        console.log(dispatch(setTransactions(res.data)));
       });
   }, []);
 

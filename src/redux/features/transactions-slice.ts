@@ -6,6 +6,7 @@ type initialState = {
 };
 
 export type TransactionState = {
+  id: number;
   date: Date;
   amount: number;
   category_id: number;

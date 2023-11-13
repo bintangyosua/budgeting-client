@@ -1,7 +1,8 @@
 "use client";
 import {
   TransactionState,
-  setTransactions,
+  getTransactions,
+  setTransactions as setTransacts,
 } from "@/redux/features/transactions-slice";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button, Table } from "@radix-ui/themes";
@@ -10,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import AddTransaction from "./AddTransaction";
 import { useEffect, useState } from "react";
+import DeleteTransaction from "./DeleteTransaction";
 
 export default function Transactions() {
   const { data: session, status } = useSession();
@@ -23,7 +25,6 @@ export default function Transactions() {
   );
 
   const [transactions, setTransactions] = useState<TransactionState[]>([]);
-
   const categories = useAppSelector((state) => state.categoryReducer.value);
   const wallets = useAppSelector((state) => state.walletReducer.value);
 
@@ -71,7 +72,14 @@ export default function Transactions() {
                     val.id === value.wallet_id ? val.name : ""
                   )}
                 </Table.Cell>
-                <Table.Cell></Table.Cell>
+                <Table.Cell>
+                  <div className="flex space-x-2">
+                    <Button color="cyan" variant="outline">
+                      Edit
+                    </Button>
+                    <DeleteTransaction transactionId={value.id} />
+                  </div>
+                </Table.Cell>
               </Table.Row>
             );
           })}
