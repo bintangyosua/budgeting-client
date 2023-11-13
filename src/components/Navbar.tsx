@@ -20,18 +20,7 @@ export default function Navbar() {
       .get(`http://127.0.0.1:8000/api/users/${session?.user?.email}`)
       .then((res) => {
         setUser(res.data);
-        console.log({ user_id: res.data.id });
         dispatch(logIn(res.data));
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
-      )
-      .then((res) => {
-        dispatch(setTransactions(res.data));
       });
   }, []);
 

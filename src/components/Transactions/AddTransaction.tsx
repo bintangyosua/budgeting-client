@@ -52,12 +52,7 @@ export default function AddTransaction() {
     };
 
     axios.post("http://127.0.0.1:8000/api/transactions", body).then((res) => {
-      console.log(res.data);
-      axios
-        .get(`http://127.0.0.1:8000/api/transactions/${user.email}`)
-        .then((res) => {
-          dispatch(setTransactions(res.data));
-        });
+      dispatch(setTransactions(res.data));
     });
   };
 
