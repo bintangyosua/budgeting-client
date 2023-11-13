@@ -1,4 +1,5 @@
 "use client";
+import { useAppSelector } from "@/redux/store";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { BsBank2 } from "react-icons/bs";
@@ -6,6 +7,8 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 export default function SideBarProfile() {
   const { data: session, status } = useSession();
+
+  const username = useAppSelector((state) => state.authReducer.value.username);
   return (
     <div className="flex flex-col px-5 py-4 space-y-10">
       <div className="flex flex-row justify-start space-x-3 rounded-xl h-[80px] w-[190px]">
@@ -17,7 +20,7 @@ export default function SideBarProfile() {
           className="rounded-xl"
         />
         <div className="flex flex-col justify-evenly">
-          <span className="text-xl text-white">{session?.user?.name}</span>
+          <span className="text-xl text-white">{username}</span>
           <span>Musician</span>
         </div>
       </div>
