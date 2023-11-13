@@ -8,7 +8,8 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 export default function SideBarProfile() {
   const { data: session, status } = useSession();
 
-  const username = useAppSelector((state) => state.authReducer.value.username);
+  // const username = useAppSelector((state) => state.authReducer.value.id);
+  const username = session?.user?.name;
   return (
     <div className="flex flex-col px-5 py-4 space-y-10">
       <div className="flex flex-row justify-start space-x-3 rounded-xl h-[80px] w-[190px]">

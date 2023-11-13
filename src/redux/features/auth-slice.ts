@@ -7,6 +7,8 @@ type initialState = {
 
 export type AuthState = {
   id: number;
+  name: string;
+  email: string;
 };
 
 const initialState = {
@@ -22,12 +24,12 @@ export const auth = createSlice({
     logOut: () => {
       return initialState;
     },
-    logIn: (state, action: PayloadAction<number>) => {
-      return {
-        value: {
-          id: action.payload,
-        },
-      };
+    logIn: (state, action: PayloadAction<AuthState>) => {
+      state.value = action.payload;
+      return state;
+    },
+    getUserId: (state) => {
+      return state;
     },
   },
 });

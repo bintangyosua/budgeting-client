@@ -25,9 +25,17 @@ export const category = createSlice({
   name: "category",
   initialState,
   reducers: {
-    getCategories: (state) => {},
+    getCategories: (state) => {
+      return {
+        value: state.value,
+      };
+    },
+
+    setCategories: (state, action: PayloadAction<CategoryState[]>) => {
+      state.value = action.payload;
+    },
   },
 });
 
-export const { getCategories } = category.actions;
+export const { getCategories, setCategories } = category.actions;
 export default category.reducer;

@@ -17,9 +17,6 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn(user) {
-      console.log({
-        url: `${process.env.API_URL}/users/${user.profile?.email}`,
-      });
       // await axios.get(`${process.env.API_URL}/users`).then((res) => {
       //   console.log(res.data);
       // });

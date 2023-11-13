@@ -4,9 +4,10 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { AuthState, logIn, logOut } from "@/redux/features/auth-slice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { setTransactions } from "@/redux/features/transactions-slice";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -17,14 +18,29 @@ export default function Navbar() {
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/users/${session?.user?.email}`)
-      .then((res) => setUser(res.data));
+      .then((res) => {
+        setUser(res.data);
+        console.log({ user_id: res.data.id });
+        dispatch(logIn(res.data));
+      });
   }, []);
 
-  if (status) {
-    dispatch(logIn(user?.id!));
-  } else {
-    dispatch(logOut());
-  }
+  useEffect(() => {
+    axios
+      .get(
+        `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
+      )
+      .then((res) => {
+        dispatch(setTransactions(res.data));
+      });
+  }, []);
+
+  useEffect(() => {
+    if (status) {
+    } else {
+      dispatch(logOut());
+    }
+  }, []);
 
   return (
     <div className="flex flex-row justify-between px-10 py-6 bg-[#0f0f0f] sticky top-0">

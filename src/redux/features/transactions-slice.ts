@@ -5,7 +5,7 @@ type initialState = {
   value: TransactionState[];
 };
 
-type TransactionState = {
+export type TransactionState = {
   date: Date;
   amount: number;
   category_id: number;
@@ -23,14 +23,16 @@ export const transaction = createSlice({
   initialState,
   reducers: {
     getTransactions: (state) => {
-      axios.get(`${process.env.API_URL}/transactions`).then((res) => {
-        return {
-          value: res.data,
-        };
-      });
+      return {
+        value: state.value,
+      };
+    },
+    setTransactions: (state, action: PayloadAction<TransactionState[]>) => {
+      state.value = action.payload;
+      return state;
     },
   },
 });
 
-export const { getTransactions } = transaction.actions;
+export const { getTransactions, setTransactions } = transaction.actions;
 export default transaction.reducer;
