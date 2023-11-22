@@ -8,7 +8,6 @@ type initialState = {
 export type WalletState = {
   id: number;
   name: string;
-  category_type_id: number;
   created_at: Date;
   updated_at: Date;
 };

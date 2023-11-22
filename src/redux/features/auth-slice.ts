@@ -9,6 +9,9 @@ export type AuthState = {
   id: number;
   name: string;
   email: string;
+  cash: number;
+  bank: number;
+  e_wallet: number;
 };
 
 const initialState = {

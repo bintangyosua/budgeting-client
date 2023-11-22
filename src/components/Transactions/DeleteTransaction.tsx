@@ -1,22 +1,33 @@
-import { setTransactions } from "@/redux/features/transactions-slice";
+import {
+  TransactionState,
+  setTransactions,
+} from "@/redux/features/transactions-slice";
 import { AppDispatch } from "@/redux/store";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function DeleteTransaction({
-  transactionId,
+  transaction,
 }: {
-  transactionId: number;
+  transaction: TransactionState;
 }) {
+  const [transactionId, setTransactionId] = useState<number>(transaction.id);
   const dispatch = useDispatch<AppDispatch>();
   const handleDelete = () => {
+    console.log({ transactionId });
     axios
       .delete(`http://127.0.0.1:8000/api/transactions/${transactionId}`)
       .then((res) => {
         dispatch(setTransactions(res.data));
       });
   };
+
+  useEffect(() => {
+    setTransactionId(transaction.id);
+  }, [transaction]);
+
   return (
     <Dialog.Root>
       <Dialog.Trigger>

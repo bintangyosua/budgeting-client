@@ -123,12 +123,30 @@ export default function AddTransaction() {
                     }}>
                     <Select.Trigger className="w-full" />
                     <Select.Content position="popper">
-                      {categories &&
-                        categories.map((val) => (
-                          <Select.Item value={`${val.id}`} key={val.id}>
-                            {val.name}
-                          </Select.Item>
-                        ))}
+                      <Select.Group>
+                        <Select.Label>Expenses</Select.Label>
+                        {categories &&
+                          categories.map((val) => {
+                            if (val.category_type_id === 1)
+                              return (
+                                <Select.Item value={`${val.id}`} key={val.id}>
+                                  {val.name}
+                                </Select.Item>
+                              );
+                          })}
+                      </Select.Group>
+                      <Select.Group>
+                        <Select.Label>Incomes</Select.Label>
+                        {categories &&
+                          categories.map((val) => {
+                            if (val.category_type_id === 2)
+                              return (
+                                <Select.Item value={`${val.id}`} key={val.id}>
+                                  {val.name}
+                                </Select.Item>
+                              );
+                          })}
+                      </Select.Group>
                     </Select.Content>
                   </Select.Root>
                 </label>

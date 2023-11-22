@@ -38,6 +38,7 @@ export default function Transactions() {
       .then((res) => {
         setTransactions(res.data);
       });
+    console.log(transactions);
   }, [trans]);
 
   return (
@@ -56,35 +57,46 @@ export default function Transactions() {
         </Table.Header>
 
         <Table.Body>
-          {transactions.map((value, key) => {
-            return (
-              <Table.Row key={key}>
-                <Table.RowHeaderCell>
-                  {value.date as unknown as string}
-                </Table.RowHeaderCell>
-                <Table.Cell>{value.amount}</Table.Cell>
-                <Table.Cell>
-                  {categories.map((val) =>
-                    val.id === value.category_id ? val.name : ""
-                  )}
-                </Table.Cell>
-                <Table.Cell>{value.description}</Table.Cell>
-                <Table.Cell>
-                  {wallets.map((val) =>
-                    val.id === value.wallet_id ? val.name : ""
-                  )}
-                </Table.Cell>
-                <Table.Cell>
-                  <div className="flex space-x-2">
-                    <span>
-                      <EditTransaction transaction={value} />
-                    </span>
-                    <DeleteTransaction transactionId={value.id} />
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
+          {transactions.length > 0 ? (
+            transactions.map((value, key) => {
+              return (
+                <Table.Row key={key}>
+                  <Table.RowHeaderCell>
+                    {value.date as unknown as string}
+                  </Table.RowHeaderCell>
+                  <Table.Cell>
+                    {value.amount.toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
+                  </Table.Cell>
+                  <Table.Cell>
+                    {categories.map((val) =>
+                      val.id === value.category_id ? val.name : ""
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>{value.description}</Table.Cell>
+                  <Table.Cell>
+                    {wallets.map((val) =>
+                      val.id === value.wallet_id ? val.name : ""
+                    )}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="flex space-x-2">
+                      <span>
+                        <EditTransaction transaction={value} />
+                      </span>
+                      <DeleteTransaction transaction={value} />
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })
+          ) : (
+            <Table.Row>
+              <Table.Cell colSpan={6}>No transactions made</Table.Cell>
+            </Table.Row>
+          )}
         </Table.Body>
       </Table.Root>
     </div>
