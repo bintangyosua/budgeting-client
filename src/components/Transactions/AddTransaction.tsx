@@ -62,11 +62,9 @@ export default function AddTransaction() {
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/categories`).then((res) => {
       setCategories(res.data);
-      dispatch(postCategories(res.data));
     });
     axios.get(`http://127.0.0.1:8000/api/wallets`).then((res) => {
       setWallets(res.data);
-      dispatch(postWallets(res.data));
     });
   }, []);
 

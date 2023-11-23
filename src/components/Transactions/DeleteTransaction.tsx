@@ -16,7 +16,6 @@ export default function DeleteTransaction({
   const [transactionId, setTransactionId] = useState<number>(transaction.id);
   const dispatch = useDispatch<AppDispatch>();
   const handleDelete = () => {
-    console.log({ transactionId });
     axios
       .delete(`http://127.0.0.1:8000/api/transactions/${transactionId}`)
       .then((res) => {

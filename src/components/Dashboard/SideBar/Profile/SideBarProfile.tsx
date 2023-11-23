@@ -1,6 +1,7 @@
 "use client";
 import { TransactionState } from "@/redux/features/transactions-slice";
 import { useAppSelector } from "@/redux/store";
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -23,65 +24,68 @@ export default function SideBarProfile() {
   const [eWallets, setEWallets] = useState<number>(0);
 
   useEffect(() => {
-    const fetchWallets = () => {
-      const { cash, banks, eWallets } = transactions.reduce(
-        (acc, val) => {
-          categories.forEach((value) => {
-            if (val.category_id === value.id) {
-              if (value.category_type_id === 1 && val.wallet_id === 1) {
-                acc.cash.expenses += val.amount;
-              } else if (value.category_type_id === 2 && val.wallet_id === 1) {
-                acc.cash.incomes += val.amount;
-              } else if (value.category_type_id === 1 && val.wallet_id === 2) {
-                acc.banks.expenses += val.amount;
-              } else if (value.category_type_id === 2 && val.wallet_id === 2) {
-                acc.banks.incomes += val.amount;
-              } else if (value.category_type_id === 1 && val.wallet_id === 3) {
-                acc.eWallets.expenses += val.amount;
-              } else if (value.category_type_id === 2 && val.wallet_id === 3) {
-                acc.eWallets.incomes += val.amount;
+    const fetchTotal = (walletType: number, wallet: number) => {
+      if (Array.isArray(transactions)) {
+        const { expenses, incomes } = transactions.reduce(
+          (acc, val) => {
+            categories.forEach((value) => {
+              if (val.category_id === value.id) {
+                value.category_type_id === 1 && val.wallet_id === walletType
+                  ? (acc.expenses += val.amount)
+                  : value.category_type_id === 2 && val.wallet_id === walletType
+                  ? (acc.incomes += val.amount)
+                  : null;
               }
-            }
-          });
-          return acc;
-        },
-        {
-          cash: { expenses: 0, incomes: 0 },
-          banks: { expenses: 0, incomes: 0 },
-          eWallets: { expenses: 0, incomes: 0 },
-        }
-      );
+            });
+            return acc;
+          },
+          { expenses: 0, incomes: 0 }
+        );
 
-      setCash(cash.incomes - cash.expenses);
-      setBanks(banks.incomes - banks.expenses);
-      setEWallets(eWallets.incomes - eWallets.expenses);
+        return incomes - expenses;
+      } else {
+        return wallet;
+      }
+    };
+
+    const fetchWallets = () => {
+      setCash(fetchTotal(1, cash));
+      setBanks(fetchTotal(2, banks));
+      setEWallets(fetchTotal(3, eWallets));
     };
 
     const fetchSavings = () => {
-      const { expenses, incomes } = transactions.reduce(
-        (acc, val) => {
-          categories.forEach((value) => {
-            if (val.category_id === value.id) {
-              value.category_type_id === 1
-                ? (acc.expenses += val.amount)
-                : value.category_type_id === 2
-                ? (acc.incomes += val.amount)
-                : null;
+      if (Array.isArray(transactions)) {
+        let expenses: number = 0;
+        let incomes: number = 0;
+        transactions.forEach((value) => {
+          categories.forEach((value2) => {
+            if (value.category_id === value2.id) {
+              value2.category_type_id === 1
+                ? (expenses += value.amount)
+                : (expenses += 0);
             }
           });
-          return acc;
-        },
-        { expenses: 0, incomes: 0 }
-      );
-
-      setTotalSavings(incomes - expenses);
+        });
+        transactions.forEach((value) => {
+          categories.forEach((value2) => {
+            if (value.category_id === value2.id) {
+              value2.category_type_id === 2
+                ? (incomes += value.amount)
+                : (incomes += 0);
+            }
+          });
+        });
+        setTotalSavings(incomes - expenses);
+      } else {
+        setTotalSavings(totalSavings);
+      }
     };
 
     fetchWallets();
     fetchSavings();
   }, [transactions]);
 
-  // console.log({ transactions });
   const username = session?.user?.name;
   return (
     <div className="flex flex-col px-5 py-4 space-y-10">

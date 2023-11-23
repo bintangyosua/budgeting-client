@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useAppSelector } from "../store";
+import { TransactionState } from "./transactions-slice";
 
 type initialState = {
   value: AuthState;
@@ -11,7 +13,8 @@ export type AuthState = {
   email: string;
   cash: number;
   bank: number;
-  e_wallet: number;
+  eWallet: number;
+  savings: number;
 };
 
 const initialState = {
@@ -19,6 +22,10 @@ const initialState = {
     id: 0,
     name: "",
     email: "",
+    cash: 0,
+    bank: 0,
+    eWallet: 0,
+    savings: 0,
   } as AuthState,
 } as initialState;
 
@@ -31,9 +38,6 @@ export const auth = createSlice({
     },
     logIn: (state, action: PayloadAction<AuthState>) => {
       state.value = action.payload;
-      return state;
-    },
-    getUserId: (state) => {
       return state;
     },
   },

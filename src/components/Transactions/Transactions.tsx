@@ -6,7 +6,7 @@ import {
 } from "@/redux/features/transactions-slice";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button, Table } from "@radix-ui/themes";
-import axios from "axios";
+import axios, { AxiosDefaults, AxiosResponse } from "axios";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import AddTransaction from "./AddTransaction";
@@ -35,10 +35,10 @@ export default function Transactions() {
       .get(
         `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
       )
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         setTransactions(res.data);
       });
-    console.log(transactions);
+    console.log("getTransactions selesai di transactions");
   }, [trans]);
 
   return (

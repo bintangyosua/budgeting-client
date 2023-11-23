@@ -26,6 +26,7 @@ export default function EditTransaction({
 }: {
   transaction: TransactionState;
 }) {
+  const { data: session, status } = useSession();
   const [date, setDate] = useState<string | Date>(transaction.date);
   const [amount, setAmount] = useState<number | string>(transaction.amount);
   const [categoryId, setCategoryId] = useState<number | string>(
@@ -43,8 +44,6 @@ export default function EditTransaction({
 
   const categories = useAppSelector((state) => state.categoryReducer.value);
   const wallets = useAppSelector((state) => state.walletReducer.value);
-
-  const { data: session, status } = useSession();
 
   useEffect(() => {
     // Set nilai state saat transaction berubah
@@ -64,11 +63,17 @@ export default function EditTransaction({
       description: description,
       user_id: user.id,
     };
-
     axios
       .post(`http://127.0.0.1:8000/api/transactions/${transaction.id}`, body)
-      .then((res) => {
-        dispatch(postTransactions(res.data));
+      .then(() => {
+        axios
+          .get(
+            `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
+          )
+          .then((res) => {
+            dispatch(postTransactions(res.data));
+            console.log("transactions diupdate");
+          });
       });
   };
 
@@ -123,12 +128,30 @@ export default function EditTransaction({
                     }}>
                     <Select.Trigger className="w-full" />
                     <Select.Content position="popper">
-                      {categories &&
-                        categories.map((val) => (
-                          <Select.Item value={`${val.id}`} key={val.id}>
-                            {val.name}
-                          </Select.Item>
-                        ))}
+                      <Select.Group>
+                        <Select.Label>Expenses</Select.Label>
+                        {categories &&
+                          categories.map((val) => {
+                            if (val.category_type_id === 1)
+                              return (
+                                <Select.Item value={`${val.id}`} key={val.id}>
+                                  {val.name}
+                                </Select.Item>
+                              );
+                          })}
+                      </Select.Group>
+                      <Select.Group>
+                        <Select.Label>Incomes</Select.Label>
+                        {categories &&
+                          categories.map((val) => {
+                            if (val.category_type_id === 2)
+                              return (
+                                <Select.Item value={`${val.id}`} key={val.id}>
+                                  {val.name}
+                                </Select.Item>
+                              );
+                          })}
+                      </Select.Group>
                     </Select.Content>
                   </Select.Root>
                 </label>

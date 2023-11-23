@@ -8,6 +8,8 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { setTransactions } from "@/redux/features/transactions-slice";
+import { setCategories } from "@/redux/features/categories-slice";
+import { setWallets } from "@/redux/features/wallets-slice";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -33,9 +35,13 @@ export default function Navbar() {
       .then((res) => {
         dispatch(setTransactions(res.data));
       });
-  }, []);
+    axios.get(`http://127.0.0.1:8000/api/categories`).then((res) => {
+      dispatch(setCategories(res.data));
+    });
+    axios.get(`http://127.0.0.1:8000/api/wallets`).then((res) => {
+      dispatch(setWallets(res.data));
+    });
 
-  useEffect(() => {
     if (status) {
     } else {
       dispatch(logOut());
