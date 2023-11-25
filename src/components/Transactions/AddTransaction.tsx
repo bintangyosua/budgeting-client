@@ -70,7 +70,7 @@ export default function AddTransaction() {
         .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
         .then((res) => {
           dispatch(postTransactions(res.data)); // Set nilai state saat transaction berubah
-          setDate(new Date());
+          setDate(new Date().toISOString().split("T")[0]);
           setAmount(0);
           setCategoryId("1");
           setWalletId("1");

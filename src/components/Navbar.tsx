@@ -42,9 +42,17 @@ export default function Navbar() {
             dispatch(setTransactions(res.data));
           });
 
+        const currentDate = new Date();
+        const firstDate = new Date(currentDate.getFullYear(), 0, 1)
+          .toISOString()
+          .split("T")[0]; // First date of the current year
+        const lastDate = new Date(currentDate.getFullYear(), 11, 31)
+          .toISOString()
+          .split("T")[0]; // Last date of the current year
+
         axios
           .get(
-            `http://127.0.0.1:8000/api/users/${user.id}/transactions?firstdate=2023-1-1&lastdate=2024-1-1`
+            `http://127.0.0.1:8000/api/users/${user.id}/transactions?firstdate=${firstDate}&lastdate=${lastDate}`
           )
           .then((res) => {
             dispatch(setLineArea(res.data));

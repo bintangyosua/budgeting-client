@@ -19,12 +19,25 @@ type lineAreaType = {
   }[];
 };
 
+export type doughnutType = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string[];
+    borderColor: string[];
+    borderWidth: number;
+  }[];
+};
+
 export default function Dashboard() {
   const transactions = useAppSelector((state) => [
     ...state.transactionReducer.value,
   ]);
 
   const [lineAreaData, setLineAreaData] = useState<lineAreaType>();
+  const [doughnutData, setDoughnutData] = useState<doughnutType>();
+  const [differ, setDiffer] = useState<number>();
 
   const graph = useAppSelector((state) => state.graphReducer.value);
 
@@ -50,7 +63,6 @@ export default function Dashboard() {
     };
 
     const labels: string[] = graph.map((value) => getMonthName(value.month));
-
     const datasets = [
       {
         fill: true,
@@ -72,12 +84,41 @@ export default function Dashboard() {
       labels,
       datasets,
     });
+
+    console.log({ graph });
+
+    const sumCategory2 = graph
+      .map((value) => Number(value.sum_category_2 || 0))
+      .reduce((acc, item) => acc + item, 0);
+
+    const sumCategory1 = graph
+      .map((value) => Number(value.sum_category_1 || 0))
+      .reduce((acc, item) => acc + item, 0);
+
+    setDiffer(sumCategory2 - sumCategory1);
+
+    setDoughnutData({
+      datasets: [
+        {
+          label: "Total",
+          borderColor: ["#EF4444", "#397EE8"],
+          backgroundColor: ["#EF4444", "#397EE8"],
+          borderWidth: 1,
+          data: [sumCategory1, sumCategory2],
+        },
+      ],
+      labels: ["Expenses", "Incomes"],
+    });
   }, [graph]);
-  const doughnutData = fetchExpenses();
   return (
     <div className="w-full text-black">
       <div className="flex justify-between">
-        <h1 className="pb-5 text-4xl font-bold text-black">Rp717,000</h1>
+        <h1 className="pb-5 text-4xl font-bold text-black">
+          {differ?.toLocaleString("id-ID", {
+            style: "currency",
+            currency: "IDR",
+          })}
+        </h1>
       </div>
       <div className="px-8 py-5 bg-zinc-200 rounded-3xl md:hidden">
         <h3 className="text-2xl">My Wallets</h3>
@@ -115,7 +156,7 @@ export default function Dashboard() {
             {lineAreaData && <ChartjsBar data={lineAreaData} />}
           </div>
           <div className="xl:w-[35%] px-8 my-3 rounded-3xl">
-            <ChartjsDoughnut data={doughnutData} />
+            {doughnutData && <ChartjsDoughnut data={doughnutData} />}
           </div>
         </div>
       </div>
