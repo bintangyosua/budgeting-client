@@ -10,7 +10,7 @@ export default async function Page() {
         <SideBar href="transactions" />
         <div className="flex flex-col w-full">
           <Navbar />
-          <div className="flex flex-row justify-start px-4 py-6 space-x-12 overflow-y-auto md:px-10">
+          <div className="flex flex-row justify-start px-4 py-6 space-x-12 overflow-y-hidden md:px-10">
             <Transactions />
           </div>
         </div>
