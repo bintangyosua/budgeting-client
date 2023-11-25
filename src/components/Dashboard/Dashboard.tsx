@@ -1,13 +1,78 @@
 "use client";
 
-import { incomes } from "@/data/income";
 import ChartjsBar from "../Charts/ChartjsBar";
-import { expenses } from "@/data/expense";
 import { fetchExpenses } from "@/services/fetchData";
 import ChartjsDoughnut from "../Charts/ChartjsDoughnut";
 import TopTransaction from "../Dashboard/TopTransaction/TopTransaction";
+import { useAppSelector } from "@/redux/store";
+import { useEffect, useState } from "react";
+import { TransactionState } from "@/zustand/useTransactionsStore";
+
+type lineAreaType = {
+  labels: string[];
+  datasets: {
+    fill: boolean;
+    label: string;
+    backgroundColor: string;
+    borderColor: string;
+    data: number[];
+  }[];
+};
 
 export default function Dashboard() {
+  const transactions = useAppSelector((state) => [
+    ...state.transactionReducer.value,
+  ]);
+
+  const [lineAreaData, setLineAreaData] = useState<lineAreaType>();
+
+  const graph = useAppSelector((state) => state.graphReducer.value);
+
+  useEffect(() => {
+    const getMonthName = (monthNumber: number) => {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      // Assuming monthNumber is 1-indexed (January is 1, February is 2, etc.)
+      return months[monthNumber - 1];
+    };
+
+    const labels: string[] = graph.map((value) => getMonthName(value.month));
+
+    const datasets = [
+      {
+        fill: true,
+        label: "Income",
+        backgroundColor: "#397EE8",
+        borderColor: "#397EE8",
+        data: graph.map((value) => value.sum_category_2),
+      },
+      {
+        fill: true,
+        label: "Expense",
+        backgroundColor: "#EF4444",
+        borderColor: "#EF4444",
+        data: graph.map((value) => value.sum_category_1),
+      },
+    ];
+
+    setLineAreaData({
+      labels,
+      datasets,
+    });
+  }, [graph]);
   const doughnutData = fetchExpenses();
   return (
     <div className="w-full text-black">
@@ -33,15 +98,13 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="hidden xl:flex xl:flex-row xl:justify-between xl:space-x-3 max-h-48">
-        <TopTransaction name="Saved" amount={5500000} percentage={7} />
-        <TopTransaction
+        {/* <TopTransaction
           name="Incoming Transfer"
           amount={2375000}
           percentage={-10}
         />
         <TopTransaction name="Other Income" amount={12000000} percentage={20} />
-        <TopTransaction name="Other Income" amount={12000000} percentage={20} />
-        <TopTransaction name="Other Income" amount={12000000} percentage={20} />
+        <TopTransaction name="Other Income" amount={12000000} percentage={20} /> */}
       </div>
       <div className="py-6">
         <h3 className="px-1 text-xl font-semibold text-zinc-900">
@@ -49,7 +112,7 @@ export default function Dashboard() {
         </h3>
         <div className="justify-between w-full xl:flex">
           <div className="xl:w-[64%] px-8 py-5 my-3 rounded-3xl">
-            <ChartjsBar data={data} />
+            {lineAreaData && <ChartjsBar data={lineAreaData} />}
           </div>
           <div className="xl:w-[35%] px-8 my-3 rounded-3xl">
             <ChartjsDoughnut data={doughnutData} />
@@ -59,56 +122,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-const labels: string[] = [];
-
-incomes.map((item, i) => {
-  labels.push(item.date);
-});
-
-expenses.map((item, i) => {
-  if (!labels.includes(item.date)) {
-    labels.push(item.date);
-  }
-});
-
-let incomeData: number[] = [];
-
-incomes.map((item, i) => {
-  if (item.date === labels[i]) {
-    incomeData.push(item.amount);
-  } else {
-    incomeData.push(0);
-  }
-});
-
-let expenseData: number[] = [];
-expenses.map((item, i) => {
-  if (item.date === labels[i]) {
-    expenseData.push(item.amount);
-  } else {
-    expenseData.push(0);
-  }
-});
-
-const datasets = [
-  {
-    fill: true,
-    label: "Income",
-    backgroundColor: "#397EE8",
-    borderColor: "#397EE8",
-    data: incomeData,
-  },
-  {
-    fill: true,
-    label: "Expense",
-    backgroundColor: "#EF4444",
-    borderColor: "#EF4444",
-    data: expenseData,
-  },
-];
-
-const data = {
-  labels: labels,
-  datasets: datasets,
-};

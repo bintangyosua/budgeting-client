@@ -19,7 +19,7 @@ export const authOptions: NextAuthOptions = {
     async signIn(user) {
       try {
         const res = await axios
-          .get(`${process.env.API_URL}/users/${user.profile?.email}`)
+          .get(`${process.env.API_URL}/users/?email=${user.user.email}`)
           .then((res) => res.data);
       } catch (error) {
         await axios

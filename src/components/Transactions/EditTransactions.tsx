@@ -67,9 +67,7 @@ export default function EditTransaction({
       .post(`http://127.0.0.1:8000/api/transactions/${transaction.id}`, body)
       .then(() => {
         axios
-          .get(
-            `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
-          )
+          .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
           .then((res) => {
             dispatch(postTransactions(res.data));
             console.log("transactions diupdate");

@@ -17,8 +17,6 @@ import EditTransaction from "./EditTransactions";
 export default function Transactions() {
   const { data: session, status } = useSession();
 
-  // const data = store.dispatch(getUserTransactions(session?.user?.email));
-
   const dispatch = useDispatch<AppDispatch>();
   const trans: TransactionState[] = useAppSelector(
     (state) => state.transactionReducer.value
@@ -31,14 +29,15 @@ export default function Transactions() {
   const wallets = useAppSelector((state) => state.walletReducer.value);
 
   useEffect(() => {
-    axios
-      .get(
-        `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
-      )
-      .then((res: AxiosResponse) => {
-        setTransactions(res.data);
-      });
-    console.log("getTransactions selesai di transactions");
+    // axios
+    //   .get(
+    //     `http://127.0.0.1:8000/api/users/${session?.user?.email}/transactions`
+    //   )
+    //   .then((res: AxiosResponse) => {
+    //     setTransactions(res.data);
+    //   });
+
+    setTransactions(trans);
   }, [trans]);
 
   return (

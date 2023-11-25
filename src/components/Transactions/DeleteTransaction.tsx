@@ -2,9 +2,10 @@ import {
   TransactionState,
   setTransactions,
 } from "@/redux/features/transactions-slice";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -13,13 +14,19 @@ export default function DeleteTransaction({
 }: {
   transaction: TransactionState;
 }) {
+  const { data: session, status } = useSession();
   const [transactionId, setTransactionId] = useState<number>(transaction.id);
   const dispatch = useDispatch<AppDispatch>();
+  const user = useAppSelector((state) => state.authReducer.value);
   const handleDelete = () => {
     axios
       .delete(`http://127.0.0.1:8000/api/transactions/${transactionId}`)
       .then((res) => {
-        dispatch(setTransactions(res.data));
+        axios
+          .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
+          .then((res) => {
+            dispatch(setTransactions(res.data));
+          });
       });
   };
 

@@ -3,6 +3,7 @@ import authReducer from "./features/auth-slice";
 import transactionReducer from "./features/transactions-slice";
 import categoryReducer from "./features/categories-slice";
 import walletReducer from "./features/wallets-slice";
+import graphReducer from "./features/graphs-slice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     transactionReducer,
     categoryReducer,
     walletReducer,
+    graphReducer,
   },
 });
 

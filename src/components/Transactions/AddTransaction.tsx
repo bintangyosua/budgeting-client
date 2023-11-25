@@ -22,6 +22,12 @@ import { useSession } from "next-auth/react";
 
 export default function AddTransaction() {
   const id = useAppSelector((state) => state.authReducer.value.id);
+
+  /**
+   * Returns a formatted date string in the format "YYYY-MM-DD".
+   *
+   * @return {string} The formatted date string.
+   */
   function getFormattedDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -44,6 +50,11 @@ export default function AddTransaction() {
 
   const { data: session, status } = useSession();
 
+  /**
+   * Handles the form submission.
+   *
+   * @return {void}
+   */
   const handleSubmit = () => {
     const body = {
       date: date,
@@ -55,7 +66,16 @@ export default function AddTransaction() {
     };
 
     axios.post("http://127.0.0.1:8000/api/transactions", body).then((res) => {
-      dispatch(postTransactions(res.data));
+      axios
+        .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
+        .then((res) => {
+          dispatch(postTransactions(res.data)); // Set nilai state saat transaction berubah
+          setDate(new Date());
+          setAmount(0);
+          setCategoryId("1");
+          setWalletId("1");
+          setDescription("");
+        });
     });
   };
 

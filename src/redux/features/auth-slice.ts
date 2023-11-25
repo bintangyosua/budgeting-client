@@ -11,10 +11,10 @@ export type AuthState = {
   id: number;
   name: string;
   email: string;
-  cash: number;
-  bank: number;
-  eWallet: number;
-  savings: number;
+  cash?: number;
+  bank?: number;
+  eWallet?: number;
+  savings?: number;
 };
 
 const initialState = {
