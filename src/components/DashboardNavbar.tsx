@@ -71,12 +71,12 @@ export default function Navbar() {
   return (
     <div className="flex flex-row justify-between px-10 py-6 bg-[#0f0f0f] sticky top-0">
       <div className="flex items-center space-x-4">
-        <a href="/">
+        <Link href="/">
           <span>HOMEPAGE</span>
-        </a>
-        <a href="/dashboard">
+        </Link>
+        <Link href="/dashboard">
           <span className="text-white">DASHBOARD</span>
-        </a>
+        </Link>
       </div>
       <div className="my-auto">
         <span className="text-white">

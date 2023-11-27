@@ -1,6 +1,6 @@
 import Dashboard from "@/components/Dashboard/Dashboard";
 import SideBar from "@/components/Dashboard/SideBar/SideBar";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/DashboardNavbar";
 
 export default async function Page() {
   return (

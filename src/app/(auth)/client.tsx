@@ -10,7 +10,7 @@ export default function Client(props: { children: React.ReactNode }) {
     return <main>Loading...</main>;
   } else {
     if (!session) {
-      redirect("/");
+      redirect("/api/auth/signin");
     } else {
       return (
         <main>

@@ -1,5 +1,5 @@
 import SideBar from "@/components/Dashboard/SideBar/SideBar";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/DashboardNavbar";
 import Transactions from "@/components/Transactions/Transactions";
 import { Table } from "@radix-ui/themes";
 
