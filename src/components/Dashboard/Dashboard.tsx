@@ -7,6 +7,7 @@ import TopTransaction from "../Dashboard/TopTransaction/TopTransaction";
 import { useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { TransactionState } from "@/zustand/useTransactionsStore";
+import { AuthState } from "@/redux/features/auth-slice";
 
 type lineAreaType = {
   labels: string[];
@@ -38,6 +39,17 @@ export default function Dashboard() {
   const [lineAreaData, setLineAreaData] = useState<lineAreaType>();
   const [doughnutData, setDoughnutData] = useState<doughnutType>();
   const [differ, setDiffer] = useState<number>();
+
+  const user_state = useAppSelector((state) => state.authReducer.value);
+  const [user, setUser] = useState<AuthState>();
+
+  useEffect(() => {
+    setUser(user_state);
+  }, [user_state]);
+
+  const handler = () => {
+    console.log({ user_state });
+  };
 
   const graph = useAppSelector((state) => state.graphReducer.value);
 
@@ -85,6 +97,8 @@ export default function Dashboard() {
       datasets,
     });
 
+    console.log(user);
+
     console.log({ graph });
 
     const sumCategory2 = graph
@@ -113,7 +127,9 @@ export default function Dashboard() {
   return (
     <div className="w-full text-black">
       <div className="flex justify-between">
-        <h1 className="pb-5 text-4xl font-bold text-black">
+        <h1
+          className="pb-5 text-4xl font-bold text-black"
+          onClick={() => handler()}>
           {differ?.toLocaleString("id-ID", {
             style: "currency",
             currency: "IDR",
@@ -126,15 +142,30 @@ export default function Dashboard() {
         <div className="flex flex-col justify-between space-y-2 text-lg">
           <div className="flex justify-between">
             <span>Cash</span>
-            <span>Rp 717.000</span>
+            <span>
+              {user?.cash?.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              })}
+            </span>
           </div>
           <div className="flex justify-between">
             <span>Banks</span>
-            <span>Rp 834.000</span>
+            <span>
+              {user?.bank?.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              })}
+            </span>
           </div>
           <div className="flex justify-between">
             <span>E-Wallets</span>
-            <span>Rp 215.000</span>
+            <span>
+              {user?.eWallet?.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              })}
+            </span>
           </div>
         </div>
       </div>

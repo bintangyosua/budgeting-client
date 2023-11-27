@@ -7,9 +7,16 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BsBank2 } from "react-icons/bs";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import {
+  setCash as postCash,
+  setBank as postBank,
+  setEWallet as postEWallet,
+} from "@/redux/features/auth-slice";
 
 export default function SideBarProfile() {
   const { data: session, status } = useSession();
+  const dispatch = useDispatch();
 
   // const username = useAppSelector((state) => state.authReducer.value.id);
   const transactions = useAppSelector(
@@ -50,8 +57,11 @@ export default function SideBarProfile() {
 
     const fetchWallets = () => {
       setCash(fetchTotal(1, cash));
+      dispatch(postCash({ cash }));
       setBanks(fetchTotal(2, banks));
+      dispatch(postBank({ bank: banks }));
       setEWallets(fetchTotal(3, eWallets));
+      dispatch(postEWallet({ eWallet: eWallets }));
     };
 
     const fetchSavings = () => {

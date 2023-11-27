@@ -35,14 +35,20 @@ export default function Transactions() {
 
   return (
     <div className="w-full">
-      <AddTransaction />
+      <div className="block md:hidden">
+        <AddTransaction />
+      </div>
       <Tabs.Root defaultValue="all">
-        <Tabs.List>
-          <Tabs.Trigger value="all">All</Tabs.Trigger>
-          <Tabs.Trigger value="expenses">Expenses</Tabs.Trigger>
-          <Tabs.Trigger value="incomes">Incomes</Tabs.Trigger>
-        </Tabs.List>
-
+        <div className="flex justify-between">
+          <Tabs.List>
+            <Tabs.Trigger value="all">All</Tabs.Trigger>
+            <Tabs.Trigger value="expenses">Expenses</Tabs.Trigger>
+            <Tabs.Trigger value="incomes">Incomes</Tabs.Trigger>
+          </Tabs.List>
+          <div className="hidden md:block">
+            <AddTransaction />
+          </div>
+        </div>
         <Box pt="3" pb="2">
           <Tabs.Content value="all">
             <TransactionsTable transactions={transactions} />

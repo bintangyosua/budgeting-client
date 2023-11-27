@@ -8,9 +8,9 @@ type initialState = {
 };
 
 export type AuthState = {
-  id: number;
-  name: string;
-  email: string;
+  id?: number;
+  name?: string;
+  email?: string;
   cash?: number;
   bank?: number;
   eWallet?: number;
@@ -40,8 +40,20 @@ export const auth = createSlice({
       state.value = action.payload;
       return state;
     },
+    setCash: (state, action: PayloadAction<AuthState>) => {
+      state.value.cash = action.payload.cash;
+      return state;
+    },
+    setBank: (state, action: PayloadAction<AuthState>) => {
+      state.value.bank = action.payload.bank;
+      return state;
+    },
+    setEWallet: (state, action: PayloadAction<AuthState>) => {
+      state.value.eWallet = action.payload.eWallet;
+      return state;
+    },
   },
 });
 
-export const { logIn, logOut } = auth.actions;
+export const { logIn, logOut, setCash, setBank, setEWallet } = auth.actions;
 export default auth.reducer;
