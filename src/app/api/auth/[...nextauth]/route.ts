@@ -6,7 +6,7 @@ import {} from "next-auth/middleware";
 import GoogleProvider from "next-auth/providers/google";
 import { useState } from "react";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
