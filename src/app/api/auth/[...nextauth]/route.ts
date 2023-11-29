@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID || "",
