@@ -94,7 +94,7 @@ export default function SideBarProfile() {
 
     fetchWallets();
     fetchSavings();
-  }, [transactions, cash, banks, eWallets]);
+  }, [transactions, cash, banks, eWallets, categories, totalSavings]);
 
   const username = session?.user?.name;
   return (

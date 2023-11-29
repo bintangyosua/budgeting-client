@@ -21,5 +21,3 @@ export const useTransactionsStore = create<StoreState>()((set) => ({
       value: payload,
     })),
 }));
-
-const { value } = useTransactionsStore();

@@ -96,8 +96,6 @@ export default function Dashboard() {
       datasets,
     });
 
-    console.log(user);
-
     console.log({ graph });
 
     const sumCategory2 = graph
@@ -122,7 +120,7 @@ export default function Dashboard() {
       ],
       labels: ["Expenses", "Incomes"],
     });
-  }, [graph]);
+  }, [graph, user]);
   return (
     <div className="w-full text-black">
       <div className="flex justify-between">
