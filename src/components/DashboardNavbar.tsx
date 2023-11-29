@@ -25,7 +25,9 @@ export default function Navbar() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/api/users?email=${session?.user?.email}`)
+      .get(
+        `${process.env.NEXT_PUBLIC_API_URL}/users?email=${session?.user?.email}`
+      )
       .then((res) => {
         const user: AuthState = res.data;
         dispatch(
@@ -37,7 +39,9 @@ export default function Navbar() {
         );
 
         axios
-          .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
+          .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}/transactions`
+          )
           .then((res) => {
             dispatch(setTransactions(res.data));
           });
@@ -52,17 +56,20 @@ export default function Navbar() {
 
         axios
           .get(
-            `http://127.0.0.1:8000/api/users/${user.id}/transactions?firstdate=${firstDate}&lastdate=${lastDate}`
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}/transactions?firstdate=${firstDate}&lastdate=${lastDate}`
           )
           .then((res) => {
+            console.log(process.env.API_URL);
             dispatch(setLineArea(res.data));
           });
 
-        axios.get(`http://127.0.0.1:8000/api/categories`).then((res) => {
-          dispatch(setCategories(res.data));
-        });
+        axios
+          .get(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
+          .then((res) => {
+            dispatch(setCategories(res.data));
+          });
 
-        axios.get(`http://127.0.0.1:8000/api/wallets`).then((res) => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wallets`).then((res) => {
           dispatch(setWallets(res.data));
         });
       });

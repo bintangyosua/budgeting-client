@@ -19,11 +19,13 @@ export const authOptions: NextAuthOptions = {
     async signIn(user) {
       try {
         const res = await axios
-          .get(`${process.env.API_URL}/users/?email=${user.user.email}`)
+          .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/?email=${user.user.email}`
+          )
           .then((res) => res.data);
       } catch (error) {
         await axios
-          .post(`${process.env.API_URL}/users`, {
+          .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
             name: user.profile?.name,
             email: user.profile?.email,
             password: "somepassword",

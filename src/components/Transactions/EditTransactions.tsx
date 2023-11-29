@@ -64,10 +64,15 @@ export default function EditTransaction({
       user_id: user.id,
     };
     axios
-      .post(`http://127.0.0.1:8000/api/transactions/${transaction.id}`, body)
+      .post(
+        `${process.env.NEXT_PUBLIC_API_URL}/transactions/${transaction.id}`,
+        body
+      )
       .then(() => {
         axios
-          .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
+          .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}/transactions`
+          )
           .then((res) => {
             dispatch(postTransactions(res.data));
             console.log("transactions diupdate");

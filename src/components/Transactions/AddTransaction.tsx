@@ -65,25 +65,29 @@ export default function AddTransaction() {
       user_id: user.id,
     };
 
-    axios.post("http://127.0.0.1:8000/api/transactions", body).then((res) => {
-      axios
-        .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
-        .then((res) => {
-          dispatch(postTransactions(res.data)); // Set nilai state saat transaction berubah
-          setDate(new Date().toISOString().split("T")[0]);
-          setAmount(0);
-          setCategoryId("1");
-          setWalletId("1");
-          setDescription("");
-        });
-    });
+    axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/transactions`, body)
+      .then((res) => {
+        axios
+          .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}/transactions`
+          )
+          .then((res) => {
+            dispatch(postTransactions(res.data)); // Set nilai state saat transaction berubah
+            setDate(new Date().toISOString().split("T")[0]);
+            setAmount(0);
+            setCategoryId("1");
+            setWalletId("1");
+            setDescription("");
+          });
+      });
   };
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/categories`).then((res) => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`).then((res) => {
       setCategories(res.data);
     });
-    axios.get(`http://127.0.0.1:8000/api/wallets`).then((res) => {
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/wallets`).then((res) => {
       setWallets(res.data);
     });
   }, []);

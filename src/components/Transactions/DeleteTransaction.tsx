@@ -20,10 +20,14 @@ export default function DeleteTransaction({
   const user = useAppSelector((state) => state.authReducer.value);
   const handleDelete = () => {
     axios
-      .delete(`http://127.0.0.1:8000/api/transactions/${transactionId}`)
+      .delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/transactions/${transactionId}`
+      )
       .then((res) => {
         axios
-          .get(`http://127.0.0.1:8000/api/users/${user.id}/transactions`)
+          .get(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}/transactions`
+          )
           .then((res) => {
             dispatch(setTransactions(res.data));
           });

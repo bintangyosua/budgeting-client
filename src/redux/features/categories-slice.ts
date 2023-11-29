@@ -18,7 +18,9 @@ const initialState = {
 } as initialState;
 
 export const fetchCategories = createAsyncThunk("/categories", () => {
-  return axios.get("http://127.0.0.1/api/categories").then((res) => res.data);
+  return axios
+    .get(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
+    .then((res) => res.data);
 });
 
 export const category = createSlice({
