@@ -1,7 +1,6 @@
 "use client";
 
 import ChartjsBar from "../Charts/ChartjsBar";
-import { fetchExpenses } from "@/services/fetchData";
 import ChartjsDoughnut from "../Charts/ChartjsDoughnut";
 import TopTransaction from "../Dashboard/TopTransaction/TopTransaction";
 import { useAppSelector } from "@/redux/store";
@@ -45,7 +44,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     setUser(user_state);
-  }, [user_state]);
+  }, [user_state, user]);
 
   const handler = () => {
     console.log({ user_state });

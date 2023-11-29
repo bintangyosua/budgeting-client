@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   icons: "/wallet.png",
 };
 
-export default function ({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main>
       <Theme>

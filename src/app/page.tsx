@@ -20,14 +20,14 @@ export default function Home() {
                 Sebelum tekor
               </h1>
               <p className="mb-8 leading-relaxed text-md">
-                "Optimalkan Pengelolaan Keuangan Anda dengan Budgeting
+                &quot;Optimalkan Pengelolaan Keuangan Anda dengan Budgeting
                 Dashboard! Pantau dan kelola anggaran dengan mudah, lihat grafik
                 interaktif, dan raih kontrol penuh atas keuangan Anda. Temukan
                 kebijakan keuangan yang efisien dengan visualisasi yang intuitif
                 dan rencanakan masa depan finansial Anda. Dengan Budgeting
                 Dashboard, jadikan setiap pengeluaran dan tabungan Anda
                 menghasilkan keputusan yang cerdas dan membawa kebebasan
-                finansial lebih dekat!"
+                finansial lebih dekat!&quot;
               </p>
               <div className="flex justify-center">
                 <Link href={"/dashboard"}>
@@ -47,7 +47,7 @@ export default function Home() {
               </div>
             </div>
             <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-              <img
+              <Image
                 className="object-cover object-center rounded"
                 alt="hero"
                 src="/graph.svg"

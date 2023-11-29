@@ -1,10 +1,8 @@
 import { expenses } from "@/data/expense";
 import { incomes } from "@/data/income";
-import { useState } from "react";
 import transaction from "@/data/expense";
 
 export function fetchExpenses() {
-  const [startDate, setStartDate] = useState(new Date());
   const labels: string[] = [];
 
   incomes.map((item, i) => {
