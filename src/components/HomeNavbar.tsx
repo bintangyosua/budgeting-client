@@ -13,7 +13,7 @@ export default function HomeNavbar() {
         <Link
           className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
           href={"/"}>
-          <Image src="/wallet.svg" width={50} alt="" />
+          <Image src="/wallet.svg" width={50} height={50} alt="" />
           <span className="ml-3 text-xl">Budgeting</span>
         </Link>
         <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
